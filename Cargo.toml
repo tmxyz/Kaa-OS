@@ -1,0 +1,10 @@
+[package]
+name = "kaa_os"
+version = "0.1.0"
+edition = "2018"
+
+[profile.dev]
+panic = "abort"
+
+[dependencies]
+bootloader = "0.9"
