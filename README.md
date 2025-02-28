@@ -1,22 +1,22 @@
-## Rustilla kirjoitetun käyttöjärjestelmän dokumentointi
+# Rustilla kirjoitetun käyttöjärjestelmän dokumentointi
 
 Tämä on oma, vapaamuotoinen dokumentaatio käyttöjärjestelmän kehittämisestä Rustilla Phil Oppin loistavan blogin pohjalta: [os.phil-opp.com](https://os.phil-opp.com/). Projektia rakennetaan **rustc nightly** -versiolla. Tarkemmat ohjeet löytyvät alkuperäisestä tutoriaalista.
 
-### Projektin alustus
+## Projektin alustus
 
-**Cargo.toml**
+### Cargo.toml
 - Määritetään `edition = "2018"`.
 
-**src/main.rs**
+### src/main.rs
 - Poistetaan `std`-kirjasto ja perinteinen `main`-funktio, jotta Rust ei linkitä ohjelmaa ulkoisiin kirjastoihin.
 - Lisätään **panic-handler** ja ohjelman aloituskohta `_start()`.
 - Käytetään `#[no_mangle]`, jotta kääntäjä ei muunna `_start`-funktion nimeä.
 
-**Cargo.toml**
+### Cargo.toml
 - Lisätään panic-käsittely profiileihin (`profile.dev` ja `profile.release`):
   - Jos ohjelma panikoi (`panic!`), suoritetaan `abort` ilman lisäkäsittelyä.
 
-### Kääntäjän asetukset
+## Kääntäjän asetukset
 
 - Luodaan kääntäjälle asetustiedosto:
   ```sh
@@ -32,13 +32,13 @@ Tämä on oma, vapaamuotoinen dokumentaatio käyttöjärjestelmän kehittämises
   - Määritellään `compiler-builtins-mem`, joka korvaa C-kieliset muistinhallintafunktiot.
   - Asetetaan oletuskohde `.json`-tiedostolle.
 
-### Ensimmäinen ohjelma
+## Ensimmäinen ohjelma
 
 Kirjoitetaan **"Hello, World!"** -tulostus käyttämällä **VGA text bufferia**. Tässä vaiheessa `_start()`-funktioon lisätään ensimmäiset suorituskäskyt. Virheitä kannattaa välttää!
 
-### Bootloaderin lisääminen
+## Bootloaderin lisääminen
 
-**Cargo.toml**
+### Cargo.toml
 - Lisätään riippuvuus:
   ```toml
   [dependencies]
@@ -55,7 +55,7 @@ Kirjoitetaan **"Hello, World!"** -tulostus käyttämällä **VGA text bufferia**
   rustup component add llvm-tools-preview
   ```
 
-### Käynnistys Qemu-emulaattorissa
+## Käynnistys Qemu-emulaattorissa
 
 Voimme luoda boot imagen ja ajaa sen USB-tikulta, mutta helpompi tapa on käyttää **Qemu-emulaattoria**:
 
