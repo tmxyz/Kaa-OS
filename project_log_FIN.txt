@@ -1,3 +1,4 @@
+250227:
 Projektia rakennellaan rustc nightly -versiolla. Varmista, että nightly compiler on asennettu ja käytössä komennolla: rustup override set nightly
 Tämä on oma löyhä dokumentointi tehdyistä toimenpiteistä. Tarkkoja ohjeita varten suosittelen lukemaan ja seuraamaan alkuperäistä tutoriaalia yllä mainitussa linkissä.
 
@@ -50,5 +51,21 @@ Ohjelman voi ajaa komennolla "cargo run", kun lisätään .cargo/config.toml -ti
 runner = "bootimage runner"
 
 Tämän jälkeen yksinkertainen "cargo run" -komento käynnistää Qemun ja siinä kirjoittamamme "käyttöjärjestelmän".
+
+250228:
+Ohjelma ei lähtenyt käyntiin. Ilmeisesti nightly channel ei ole pysynyt projektin compiler-asetuksena. -> rustup override set nightly korjasi tilanteen ja lisäsin vielä .cargo/config.toml-tiedostoon rivit:
+[toolchain]
+channel = "nightly"
+Josko tämä jatkossa ei enää herjaisi! ..tuo pitää mahdollisesti laittaa Cargo.toml-tiedostoon, mutta olkoon nyt näin.
+
+Luomme VGA-bufferiin kirjoittamiselle oman modulin vga_buffer.
+Tänne tehdään toiminnot, joiden avulla voimme käyttää grafiikkasuorittimen omaa ASCII-taulukkoa (Code page 437) sen sisältämien merkkien tulostamiseksi ruudulle. Näihin kannattaa varmaan tutustua tarkemmin, mutta käytännössä luomme kirjoittajan, jossa on pointteri VGA bufferin kirjoitustaulukon ensimmäiseen alkioon, josta laskemalla bitteinä haemme haluamamme ominaisuudet ruudulle tulostettavalle merkille. Ominaisuuksiin sisältyy tulostettavan merkin väri ja sen taustaväri. Jos haluamamme kirjain tai merkki ei löydy taulukosta, tulostamme tialle pelkän laatikon. Esim ääkköset näkyvät tulostettaessa laatikoina.
+
+Writerilla on nyt kaksi kirjoitusfunktiota: write_byte() ja write_string(), joista jälkimmäinen tulostaa ensimmäisen avulla kokonaisen merkkijonon (string).
+
+BUFFER_WIDTH ja BUFFER_HEIGHT viittaavat VGA:n Code page 437:n kokoon taulukkona. Se on siis 25*80 ascii-merkin kokoinen taulukko grafiikkasuorittimen muistissa ja sitä tässä käytämme viittaamalla sen sisältämiin merkkeihin pointterilla (unsafe).
+
+VOLATILE
+
 
 
